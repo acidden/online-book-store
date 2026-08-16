@@ -4,21 +4,21 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import mate.academy.onlinebookstore.model.Book;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class BookRepositoryImpl implements BookRepository {
     private final EntityManagerFactory entityManagerFactory;
-
-    public BookRepositoryImpl(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
-    }
 
     @Override
     public Book save(Book book) {
         EntityTransaction transaction = null;
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+        EntityManager entityManager = null;
+        try {
+            entityManager = entityManagerFactory.createEntityManager();
             transaction = entityManager.getTransaction();
             transaction.begin();
             entityManager.persist(book);
@@ -29,6 +29,10 @@ public class BookRepositoryImpl implements BookRepository {
                 transaction.rollback();
             }
             throw new RuntimeException("Can`t insert book" + book + "to DB", e);
+        } finally {
+            if (entityManager != null) {
+                entityManager.close();
+            }
         }
     }
 

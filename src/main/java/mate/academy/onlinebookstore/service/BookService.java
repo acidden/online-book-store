@@ -1,9 +1,10 @@
-package mate.academy.online_book_store.service;
+package mate.academy.onlinebookstore.service;
 
-import mate.academy.online_book_store.model.Book;
 import java.util.List;
+import mate.academy.onlinebookstore.model.Book;
 
 public interface BookService {
     Book save(Book book);
+
     List<Book> findAll();
 }

@@ -14,8 +14,8 @@ public class CreateBookRequestDto {
     private String author;
     @NotBlank(message = "Isbn cannot be empty")
     private String isbn;
-    @NotNull(message = "Price cannot be empty")
-    @PositiveOrZero(message = "Price must be >= 0")
+    @NotNull(message = "Price cannot be null")
+    @PositiveOrZero(message = "Price cannot be negative")
     private BigDecimal price;
     private String description;
     private String coverImage;

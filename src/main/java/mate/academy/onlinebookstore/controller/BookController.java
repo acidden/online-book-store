@@ -10,6 +10,7 @@ import mate.academy.onlinebookstore.dto.BookSearchParameters;
 import mate.academy.onlinebookstore.dto.CreateBookRequestDto;
 import mate.academy.onlinebookstore.service.BookService;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class BookController {
 
     @GetMapping
     @Operation(summary = "Get all books", description = "Retrieve a paginated list of all books")
-    public List<BookDto> getAll(@ParameterObject @PageableDefault(size = 20, sort = "title")
+    public Page<BookDto> getAll(@ParameterObject @PageableDefault(size = 20, sort = "title")
                                     Pageable pageable) {
         return bookService.getAll(pageable);
     }
@@ -60,7 +61,8 @@ public class BookController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update a book", description = "Update details of an existing book")
-    public BookDto update(@PathVariable Long id, @RequestBody CreateBookRequestDto requestDto) {
+    public BookDto update(@PathVariable Long id,
+                          @RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.update(id, requestDto);
     }
 

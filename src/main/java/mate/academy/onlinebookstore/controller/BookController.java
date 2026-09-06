@@ -32,7 +32,8 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
-    @Operation(summary = "Get all books", description = "Retrieve a paginated list of all books")
+    @Operation(summary = "Get all books",
+            description = "Retrieve a paginated list of all books")
     public Page<BookDto> getAll(@ParameterObject @PageableDefault(size = 20, sort = "title")
                                     Pageable pageable) {
         return bookService.getAll(pageable);

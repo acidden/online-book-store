@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     private final BookService bookService;
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping
     @Operation(summary = "Get all books",
             description = "Retrieve a paginated list of all books")
@@ -39,6 +41,7 @@ public class BookController {
         return bookService.getAll(pageable);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
     @Operation(summary = "Get a book by ID",
             description = "Retrieve specific book details by its ID")
@@ -46,6 +49,7 @@ public class BookController {
         return bookService.getBookById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @Operation(summary = "Create a new book", description = "Add a new book to the store catalog")
     @ResponseStatus(HttpStatus.CREATED)
@@ -53,6 +57,7 @@ public class BookController {
         return bookService.createBook(bookDto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a book", description = "Soft-delete an existing book by its ID")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -60,6 +65,7 @@ public class BookController {
         bookService.deleteById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     @Operation(summary = "Update a book", description = "Update details of an existing book")
     public BookDto update(@PathVariable Long id,
@@ -67,6 +73,7 @@ public class BookController {
         return bookService.update(id, requestDto);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/search")
     @Operation(summary = "Search books",
             description = "Search for books using specified parameters")

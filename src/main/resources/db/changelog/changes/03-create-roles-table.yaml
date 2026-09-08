@@ -1,9 +1,8 @@
 databaseChangeLog:
   - changeSet:
       id: create-roles-and-users-roles-tables
-      author: admin
+      author: acidden
       changes:
-        # 1. Создаем таблицу roles
         - createTable:
             tableName: roles
             columns:
@@ -21,7 +20,6 @@ databaseChangeLog:
                     nullable: false
                     unique: true
 
-        # 2. Создаем таблицу связей users_roles
         - createTable:
             tableName: users_roles
             columns:
@@ -36,12 +34,10 @@ databaseChangeLog:
                   constraints:
                     nullable: false
 
-        # 3. Добавляем первичный ключ для таблицы связей
         - addPrimaryKey:
             tableName: users_roles
             columnNames: user_id, role_id
 
-        # 4. Добавляем внешние ключи (Foreign Keys)
         - addForeignKeyConstraint:
             baseTableName: users_roles
             baseColumnNames: user_id
@@ -54,28 +50,3 @@ databaseChangeLog:
             referencedTableName: roles
             referencedColumnNames: id
             constraintName: fk_users_roles_role
-
-        # 5. Вставляем дефолтные роли в таблицу roles
-        - insert:
-            tableName: roles
-            columns:
-              - column:
-                  name: name
-                  value: ROLE_USER
-        - insert:
-            tableName: roles
-            columns:
-              - column:
-                  name: name
-                  value: ROLE_ADMIN
-
-        # 6. Назначаем роль ADMIN существующему пользователю (например, вашему первому юзеру с id=1)
-        - insert:
-            tableName: users_roles
-            columns:
-              - column:
-                  name: user_id
-                  value: 1
-              - column:
-                  name: role_id
-                  value: 2 # ID 2 соответствует ROLE_ADMIN

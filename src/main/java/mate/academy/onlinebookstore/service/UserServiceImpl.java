@@ -1,10 +1,10 @@
 package mate.academy.onlinebookstore.service;
 
-import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import mate.academy.onlinebookstore.dto.UserRegistrationRequestDto;
 import mate.academy.onlinebookstore.dto.UserResponseDto;
+import mate.academy.onlinebookstore.exception.EntityNotFoundException;
 import mate.academy.onlinebookstore.exception.RegistrationException;
 import mate.academy.onlinebookstore.mapper.UserMapper;
 import mate.academy.onlinebookstore.model.Role;
@@ -34,9 +34,9 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toModel(requestDto);
         user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         Role defaultRole = roleRepository.findByName(Role.RoleName.ROLE_USER)
-                .orElseThrow(() -> new RegistrationException("Can`t find default role: "
+                .orElseThrow(() -> new EntityNotFoundException("Can`t find default role: "
                 + Role.RoleName.ROLE_USER));
-        user.setRoles(new HashSet<>(Set.of(defaultRole)));
+        user.setRoles(Set.of(defaultRole));
         User savedUser = userRepository.save(user);
         return userMapper.toDto(savedUser);
     }

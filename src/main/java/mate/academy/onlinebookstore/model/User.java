@@ -44,7 +44,7 @@ public class User implements UserDetails {
 
     private String shippingAddress;
 
-    @Column(name = "is_deleted", nullable = false, columnDefinition = "TINYINT")
+    @Column(nullable = false, columnDefinition = "TINYINT")
     private boolean isDeleted = false;
 
     @ManyToMany
@@ -68,5 +68,10 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return !isDeleted;
     }
 }

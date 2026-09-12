@@ -25,10 +25,10 @@ public class AuthenticationController {
     private final UserService userService;
     private final AuthenticationService authenticationService;
 
-    @Operation(summary = "Register a new user",
-            description = "Creates a new user account")
+    @Operation(summary = "User login",
+            description = "Login user account")
     @PostMapping("/login")
-    public UserLoginResponseDto login(@RequestBody UserLoginRequestDto requestDto) {
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto requestDto) {
         return authenticationService.authenticate(requestDto);
     }
 

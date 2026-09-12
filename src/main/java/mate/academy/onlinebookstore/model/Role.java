@@ -25,13 +25,13 @@ public class Role implements GrantedAuthority {
     @Column(nullable = false, unique = true)
     private RoleName name;
 
-    public enum RoleName {
-        ROLE_USER,
-        ROLE_ADMIN
-    }
-
     @Override
     public String getAuthority() {
         return name.name();
+    }
+
+    public enum RoleName {
+        ROLE_USER,
+        ROLE_ADMIN
     }
 }

@@ -53,8 +53,8 @@ public class BookController {
     @PostMapping
     @Operation(summary = "Create a new book", description = "Add a new book to the store catalog")
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDto createBook(@RequestBody @Valid CreateBookRequestDto bookDto) {
-        return bookService.createBook(bookDto);
+    public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
+        return bookService.createBook(requestDto);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

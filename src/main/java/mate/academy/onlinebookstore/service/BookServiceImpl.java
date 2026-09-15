@@ -1,8 +1,8 @@
 package mate.academy.onlinebookstore.service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.onlinebookstore.dto.BookDto;
 import mate.academy.onlinebookstore.dto.BookDtoWithoutCategoryIds;
@@ -45,6 +45,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public BookDto getBookById(Long id) {
         return bookRepository.findById(id)
                 .map(bookMapper::toDto)
@@ -86,13 +87,8 @@ public class BookServiceImpl implements BookService {
     }
 
     private Set<Category> getCategoriesByIds(List<Long> categoryIds) {
-        if (categoryIds == null || categoryIds.isEmpty()) {
-            return new HashSet<>();
-        }
-        List<Category> categories = categoryRepository.findAllById(categoryIds);
-        if (categories.size() != categoryIds.size()) {
-            throw new EntityNotFoundException("One or more categories not found");
-        }
-        return new HashSet<>(categories);
+        return categoryIds.stream()
+                .map(categoryRepository::getReferenceById)
+                .collect(Collectors.toSet());
     }
 }

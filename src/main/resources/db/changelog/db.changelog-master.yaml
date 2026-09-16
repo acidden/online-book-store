@@ -9,6 +9,9 @@ databaseChangeLog:
       file: db/changelog/changes/04-add-default-roles.yaml
   - include:
       file: db/changelog/changes/05-add-categories-table.yaml
+  - include:
+      file: db/changelog/changes/06-create-shopping-cart-and-cart-items-tables.yaml
+
 
 
 

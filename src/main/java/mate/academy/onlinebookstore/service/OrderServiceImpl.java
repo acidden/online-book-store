@@ -22,6 +22,7 @@ import mate.academy.onlinebookstore.repository.OrderItemRepository;
 import mate.academy.onlinebookstore.repository.OrderRepository;
 import mate.academy.onlinebookstore.repository.ShoppingCartRepository;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,21 +95,28 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderItemResponseDto> getOrderItems(Long orderId) {
+    public List<OrderItemResponseDto> getOrderItems(Long userId, Long orderId) {
         Order order = orderRepository.findByIdWithItems(orderId)
                 .orElseThrow(
                         () -> new EntityNotFoundException("Can`t find order by id: "
                                 + orderId));
+        if (!order.getUser().getId().equals(userId)) {
+            throw new AccessDeniedException(
+                    "You don`t have permission to view items of this order");
+        }
         return order.getOrderItems().stream()
                 .map(orderItemMapper::toDto)
                 .toList();
     }
 
     @Override
-    public OrderItemResponseDto getOrderItem(Long orderId, Long itemId) {
+    public OrderItemResponseDto getOrderItem(Long userId, Long orderId, Long itemId) {
         OrderItem orderItem = orderItemRepository.findByIdAndOrderId(itemId, orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Can`t find order item by id: "
                         + itemId + "for order id: " + orderId));
+        if (!orderItem.getOrder().getUser().getId().equals(userId)) {
+            throw new AccessDeniedException("You don't have permission to view this order item");
+        }
         return orderItemMapper.toDto(orderItem);
     }
 }

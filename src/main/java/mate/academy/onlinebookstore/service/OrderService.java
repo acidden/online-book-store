@@ -15,7 +15,7 @@ public interface OrderService {
 
     OrderResponseDto updateStatus(Long orderId, UpdateOrderStatusRequestDto requestDto);
 
-    List<OrderItemResponseDto> getOrderItems(Long orderId);
+    List<OrderItemResponseDto> getOrderItems(Long userId, Long orderId);
 
-    OrderItemResponseDto getOrderItem(Long orderId, Long itemId);
+    OrderItemResponseDto getOrderItem(Long userId, Long orderId, Long itemId);
 }

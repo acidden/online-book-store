@@ -27,6 +27,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: order_date
+                  type: DATETIME
+                  constraints:
+                    nullable: false
+              - column:
                   name: total
                   type: DECIMAL(19,2)
                   constraints:

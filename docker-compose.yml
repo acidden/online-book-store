@@ -19,7 +19,8 @@ services:
     build: .
     restart: on-failure
     ports:
-      - "8080:8080"
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+      - $DEBUG_PORT:$DEBUG_PORT
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:${MYSQLDB_DOCKER_PORT}/${MYSQLDB_DATABASE}?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
       - SPRING_DATASOURCE_USERNAME=${MYSQLDB_USER}

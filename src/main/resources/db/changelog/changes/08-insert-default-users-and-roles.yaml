@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-default-users
+      author: acidden
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: email, value: admin@bookstore.com }
+              - column: { name: password, value: "$2a$10$HDTQXy7IHKK4NTKVbBD.cu0/Pq1CnXmmsY/cD.4H5aqcUiFEo1Nhq" }
+              - column: { name: first_name, value: Den }
+              - column: { name: last_name, value: User }
+              - column: { name: is_deleted, valueBoolean: false }
+
+        - insert:
+            tableName: users
+            columns:
+              - column: { name: email, value: user@example.com }
+              - column: { name: password, value: "$2a$10$R0aTCfg1xWsQcEiTYB4xuOjgzaZxDI26wWNC/LptytIICH3KnrGLq" }
+              - column: { name: first_name, value: John }
+              - column: { name: last_name, value: Doe }
+              - column: { name: is_deleted, valueBoolean: false }
+
+  - changeSet:
+      id: map-users-to-roles
+      author: acidden
+      changes:
+        - insert:
+            tableName: users_roles
+            columns:
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: role_id, valueNumeric: 2 }
+
+        - insert:
+            tableName: users_roles
+            columns:
+              - column: { name: user_id, valueNumeric: 2 }
+              - column: { name: role_id, valueNumeric: 1 }

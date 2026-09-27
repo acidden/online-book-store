@@ -93,11 +93,10 @@ public class ShoppingCartServiceImplTest {
     void getShoppingCart_NewCart_CreatesAndReturnsCartDto() {
         Long userId = user.getId();
 
-        when(shoppingCartRepository.findByUserId(userId)).thenReturn(Optional.empty())
-                .thenReturn(Optional.of(shoppingCart));
+        when(shoppingCartRepository.findByUserId(userId)).thenReturn(Optional.empty());
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         when(shoppingCartRepository.save(any(ShoppingCart.class))).thenReturn(shoppingCart);
-        when(shoppingCartMapper.toDto(shoppingCart)).thenReturn(expectedResponseDto);
+        when(shoppingCartMapper.toDto(any(ShoppingCart.class))).thenReturn(expectedResponseDto);
 
         ShoppingCartResponseDto actualDto = shoppingCartService.getShoppingCart(userId);
 

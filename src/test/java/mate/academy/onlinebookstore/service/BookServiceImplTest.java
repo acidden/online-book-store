@@ -1,4 +1,4 @@
-package mate.academy.onlinebookstore;
+package mate.academy.onlinebookstore.service;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,7 +11,6 @@ import mate.academy.onlinebookstore.model.Book;
 import mate.academy.onlinebookstore.model.Category;
 import mate.academy.onlinebookstore.repository.BookRepository;
 import mate.academy.onlinebookstore.repository.CategoryRepository;
-import mate.academy.onlinebookstore.service.BookServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -69,7 +68,7 @@ public class BookServiceImplTest {
         BookDto actualDto = bookService.createBook(requestDto);
 
         assertNotNull(actualDto);
-        assertEquals(expectedDto.getTitle(), actualDto.getTitle());
+        assertEquals(expectedDto, actualDto);
     }
 
     @Test
@@ -90,8 +89,8 @@ public class BookServiceImplTest {
         BookDto actualDto = bookService.getBookById(bookId);
 
         assertNotNull(actualDto);
-        assertEquals(expectedDto.getTitle(), actualDto.getTitle());
-        verify(bookRepository, times(1)).findById(bookId);
+        assertEquals(expectedDto, actualDto);
+        verify(bookRepository).findById(bookId);
     }
 
     @Test
@@ -105,7 +104,7 @@ public class BookServiceImplTest {
             bookService.getBookById(bookId);
         });
 
-        verify(bookRepository, times(1)).findById(bookId);
+        verify(bookRepository).findById(bookId);
         verifyNoInteractions(bookMapper);
     }
 
@@ -176,7 +175,6 @@ public class BookServiceImplTest {
 
         bookService.deleteById(bookId);
 
-        verify(bookRepository, times(1)).deleteById(bookId);
+        verify(bookRepository).deleteById(bookId);
     }
-
 }

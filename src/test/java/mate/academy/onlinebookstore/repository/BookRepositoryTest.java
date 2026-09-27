@@ -1,8 +1,9 @@
-package mate.academy.onlinebookstore;
+package mate.academy.onlinebookstore.repository;
 
 import java.util.List;
+
+import mate.academy.onlinebookstore.BaseIntegrationTest;
 import mate.academy.onlinebookstore.model.Book;
-import mate.academy.onlinebookstore.repository.BookRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class BookRepositoryTest extends BaseIntegrationTest {
 
     @Test
     @DisplayName("Verify findAllByCategoriesId() returns book matching the category id")
-    @Sql(scripts = "classpath:add-books-and-categories.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:clear-books-and-categories.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @Sql(scripts = "classpath:/database/add-books-and-categories.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(scripts = "classpath:/database/clear-books-and-categories.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAllByCategoriesId_ValidCategoryId_ReturnsMatchingBooks() {
         Long categoryId =1L;
 

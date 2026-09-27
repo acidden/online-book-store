@@ -1,4 +1,4 @@
-package mate.academy.onlinebookstore;
+package mate.academy.onlinebookstore.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,7 +7,6 @@ import mate.academy.onlinebookstore.dto.CategoryResponseDto;
 import mate.academy.onlinebookstore.mapper.CategoryMapper;
 import mate.academy.onlinebookstore.model.Category;
 import mate.academy.onlinebookstore.repository.CategoryRepository;
-import mate.academy.onlinebookstore.service.CategoryServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

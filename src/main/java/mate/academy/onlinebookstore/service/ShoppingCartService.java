@@ -3,6 +3,7 @@ package mate.academy.onlinebookstore.service;
 import mate.academy.onlinebookstore.dto.CreateCartItemRequestDto;
 import mate.academy.onlinebookstore.dto.ShoppingCartResponseDto;
 import mate.academy.onlinebookstore.dto.UpdateCartItemRequestDto;
+import mate.academy.onlinebookstore.model.User;
 
 public interface ShoppingCartService {
     ShoppingCartResponseDto getShoppingCart(Long userId);
@@ -16,4 +17,6 @@ public interface ShoppingCartService {
     );
 
     ShoppingCartResponseDto removeCartItem(Long userId, Long cartItemId);
+
+    void registerNewShoppingCart(User user);
 }

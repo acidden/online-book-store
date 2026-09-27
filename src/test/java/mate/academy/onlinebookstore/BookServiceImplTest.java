@@ -178,5 +178,4 @@ public class BookServiceImplTest {
 
         verify(bookRepository, times(1)).deleteById(bookId);
     }
-
 }

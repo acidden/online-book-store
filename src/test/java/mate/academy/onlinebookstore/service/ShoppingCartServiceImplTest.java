@@ -95,7 +95,8 @@ public class ShoppingCartServiceImplTest {
 
         when(shoppingCartRepository.findByUserId(userId)).thenReturn(Optional.empty());
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        when(shoppingCartRepository.save(any(ShoppingCart.class))).thenReturn(shoppingCart);
+        when(shoppingCartRepository.save(any(ShoppingCart.class)))
+                .thenAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
         when(shoppingCartMapper.toDto(any(ShoppingCart.class))).thenReturn(expectedResponseDto);
 
         ShoppingCartResponseDto actualDto = shoppingCartService.getShoppingCart(userId);

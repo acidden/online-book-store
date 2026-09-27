@@ -52,8 +52,7 @@ public class CategoryServiceImplTest {
         CategoryResponseDto actualDto = categoryService.save(requestDto);
 
         assertNotNull(actualDto);
-        assertEquals(expectedDto.id(), actualDto.id());
-        assertEquals(expectedDto.name(), actualDto.name());
+        assertEquals(expectedDto, actualDto);
     }
 
     @Test
@@ -101,8 +100,8 @@ public class CategoryServiceImplTest {
         CategoryResponseDto actualDto = categoryService.findById(categoryId);
 
         assertNotNull(actualDto);
-        assertEquals(expectedDto.name(), actualDto.name());
-        verify(categoryRepository, times(1)).findById(categoryId);
+        assertEquals(expectedDto, actualDto);
+        verify(categoryRepository).findById(categoryId);
     }
 
     @Test
@@ -115,6 +114,6 @@ public class CategoryServiceImplTest {
         when(categoryRepository.existsById(any())).thenReturn(true);
         categoryService.deleteById(categoryId);
 
-        verify(categoryRepository, times(1)).deleteById(categoryId);
+        verify(categoryRepository).deleteById(categoryId);
     }
 }

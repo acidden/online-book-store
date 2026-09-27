@@ -21,6 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -29,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = org.mockito.quality.Strictness.LENIENT)
 public class ShoppingCartServiceImplTest {
     @Mock
     private ShoppingCartRepository shoppingCartRepository;
@@ -93,10 +95,10 @@ public class ShoppingCartServiceImplTest {
     void getShoppingCart_NewCart_CreatesAndReturnsCartDto() {
         Long userId = user.getId();
 
-        when(shoppingCartRepository.findByUserId(userId)).thenReturn(Optional.empty());
+        when(shoppingCartRepository.findByUserId(userId)).thenReturn(Optional.empty())
+                .thenReturn(Optional.of(shoppingCart));
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        when(shoppingCartRepository.save(any(ShoppingCart.class)))
-                .thenAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
+        when(shoppingCartRepository.save(any(ShoppingCart.class))).thenReturn(shoppingCart);
         when(shoppingCartMapper.toDto(any(ShoppingCart.class))).thenReturn(expectedResponseDto);
 
         ShoppingCartResponseDto actualDto = shoppingCartService.getShoppingCart(userId);

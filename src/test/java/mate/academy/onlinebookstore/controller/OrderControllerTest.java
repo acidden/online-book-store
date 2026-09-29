@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @WithUserDetails("user@example.com")
-
 public class OrderControllerTest {
 
     @Autowired
@@ -42,7 +41,6 @@ public class OrderControllerTest {
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD
     )
     @Sql(
-            // Сначала удаляем позиции и заказы, а только потом книги и категории!
             scripts = {
                     "classpath:database/clear-orders.sql",
                     "classpath:database/clear-books-and-categories.sql"

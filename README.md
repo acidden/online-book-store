@@ -5,9 +5,9 @@ A robust and secure RESTful e-commerce web application for an online book store,
 ## ✨ Features
 
 - **User Authentication & Authorization**: Secure registration and login flows using JWT tokens.
-- **Role-Based Access Control (RBAC)**: 
-  - `USER`: Can browse books, search by criteria, manage their shopping cart, and place orders.
-  - `ADMIN`: Full CRUD capabilities over the book catalog and category management.
+- **Role-Based Access Control (RBAC)**:
+    - `USER`: Can browse books, search by criteria, manage their shopping cart, and place orders.
+    - `ADMIN`: Full CRUD capabilities over the book catalog and category management.
 - **Shopping Cart Management**: Add, update, and remove items dynamically.
 - **Order Processing**: Place orders with automatic total cost calculation and status tracking.
 - **Validation & Error Handling**: Comprehensive request validation and global exception handling with meaningful HTTP responses.
@@ -41,11 +41,9 @@ Database migrations are managed via **Liquibase**, ensuring reproducible and saf
 
 ### Local Setup & Installation
 
-### Local Setup & Installation
-
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com
+   git clone https://github.com/acidden/online-book-store
    cd online-book-store
    ```
 
@@ -74,26 +72,21 @@ Once the application is running, you can explore, test, and interact with all th
 
 🔗 **Swagger UI URL:** [http://localhost:8080/api/swagger-ui/index.html](http://localhost:8080/api/swagger-ui/index.html)
 
-### 🧪 Automated Testing via Postman (Recommended)
+### 🧪 Role-Based API Testing (USER / ADMIN)
 
-For a more comprehensive evaluation of all endpoints, roles, and complex business workflows (like cart management and order checkout), a pre-configured automated Postman collection file is attached in the repository root: **`online-book-store.postman_collection.json`**.
+The attached automated Postman collection file (**`online-book-store.postman_collection.json`**) is located in the root directory. To maintain security best practices, no default administrative credentials or pre-loaded database passwords are leaked within the source code or migrations.
 
-#### How to utilize the collection:
-1. Open your Postman app, click **Import**, and select the `online-book-store.postman_collection.json` file from the project directory.
-2. The collection leverages dynamic variables (`{{jwt_token_user}}` and `{{jwt_token_admin}}`) to cleanly isolate user permissions. **You do not need to manually copy-paste authorization headers.**
+#### 1. Testing as a standard USER:
+* Open Postman and expand the `users` folder inside the imported collection.
+* Execute the **`Register User`** request to dynamically create a fresh user account in your local database.
+* Execute the **`Login as User`** request using those credentials. The post-response script will automatically intercept the fresh token and update all user-facing requests (e.g., browsing books, managing the shopping cart).
 
-#### Testing User vs Admin flows in one click:
-- **Testing standard `USER` endpoints:**
-    - Locate and expand the `users` folder inside the collection, select the **`Login as User`** request, and click **Send**.
-    - This request authenticates default user credentials pre-loaded via Liquibase migrations. A Post-response script will automatically intercept the fresh token and update it globally. You can now immediately run any standard endpoints (e.g., viewing books, interacting with the Shopping Cart).
-- **Testing protected `ADMIN` endpoints:**
-    - Select the **`Login as Admin`** request in the same folder and click **Send**.
-    - The script will securely update the administrator's token variable. Now, you can instantly test privileged endpoints inside the `Categories` or `book` folders (like creating/deleting books or categories) without encountering unauthorized blocks.
+#### 2. Testing protected ADMIN endpoints:
+* Any newly registered account receives the default `ROLE_USER` by architecture.
+* To test restricted endpoints (inside the `Categories` or `book` folders), **manually assign the administrative role ID** (`role_id: 2` for `ROLE_ADMIN`) to your registered user within your database using IntelliJ Database Tool or any MySQL CLI.
+* Configure the corresponding email/password variables in your Postman collection environment, and click **Send** on the **`Login as Admin`** request. The script will securely refresh the authorization scope to let you run full CRUD actions.
 
-### Sample API Workflows:
-1. `POST /api/auth/registration` — Register a new account.
-2. `POST /api/auth/login` — Authenticate and receive a Bearer JWT Token.
-3. Include the JWT Token in the `Authorization` header (`Bearer <token>`) for subsequent requests to protected endpoints like managing the shopping cart or placing an order.
+*All JWT tokens are dynamically injected into their respective folders. There is no need to manually copy-paste authorization headers.*
 
 ## 💡 Challenges Faced & Key Takeaways
 

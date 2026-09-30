@@ -69,6 +69,22 @@ Once the application is running, you can explore, test, and interact with all th
 
 🔗 **Swagger UI URL:** [http://localhost:8080/api/swagger-ui/index.html](http://localhost:8080/api/swagger-ui/index.html)
 
+### 🧪 Automated Testing via Postman (Recommended)
+
+For a more comprehensive evaluation of all endpoints, roles, and complex business workflows (like cart management and order checkout), a pre-configured automated Postman collection file is attached in the repository root: **`online-book-store.postman_collection.json`**.
+
+#### How to utilize the collection:
+1. Open your Postman app, click **Import**, and select the `online-book-store.postman_collection.json` file from the project directory.
+2. The collection leverages dynamic variables (`{{jwt_token_user}}` and `{{jwt_token_admin}}`) to cleanly isolate user permissions. **You do not need to manually copy-paste authorization headers.**
+
+#### Testing User vs Admin flows in one click:
+- **Testing standard `USER` endpoints:**
+    - Locate and expand the `users` folder inside the collection, select the **`Login as User`** request, and click **Send**.
+    - This request authenticates default user credentials pre-loaded via Liquibase migrations. A Post-response script will automatically intercept the fresh token and update it globally. You can now immediately run any standard endpoints (e.g., viewing books, interacting with the Shopping Cart).
+- **Testing protected `ADMIN` endpoints:**
+    - Select the **`Login as Admin`** request in the same folder and click **Send**.
+    - The script will securely update the administrator's token variable. Now, you can instantly test privileged endpoints inside the `Categories` or `book` folders (like creating/deleting books or categories) without encountering unauthorized blocks.
+
 ### Sample API Workflows:
 1. `POST /api/auth/registration` — Register a new account.
 2. `POST /api/auth/login` — Authenticate and receive a Bearer JWT Token.

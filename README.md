@@ -41,18 +41,23 @@ Database migrations are managed via **Liquibase**, ensuring reproducible and saf
 
 ### Local Setup & Installation
 
+### Local Setup & Installation
+
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/acidden/online-book-store
+   git clone https://github.com
    cd online-book-store
    ```
 
 2. **Configure Environment Variables:**
-   Create or modify the `src/main/resources/application.properties` file to set up your database connection strings, credentials, and JWT secret keys.
+    * Create a file named `.env` in the root directory of the project.
+    * Copy the content from `.env.template` into your newly created `.env` file. (Make sure ports like `SPRING_LOCAL_PORT=8080` and `MYSQLDB_LOCAL_PORT=3306` are defined there).
 
 3. **Run with Docker Compose (Recommended):**
+    * Make sure **Docker Desktop** is running on your machine.
+    * Execute the following command in your terminal:
    ```bash
-   docker-compose up --build
+   docker compose up --build
    ```
 
 4. **Or Build and Run Locally via Maven:**
